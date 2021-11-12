@@ -1,9 +1,20 @@
+server:
+  port: 8080
+
 spring:
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://sdb:5432/my_db
+    username: my_user
+    password: my_password
+
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           lob:
             non_contextual_creation: true
@@ -11,8 +22,3 @@ spring:
     show-sql: true
     generate-ddl: true
     open-in-view: false
-  datasource:
-    platform: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: root

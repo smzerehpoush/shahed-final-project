@@ -1,12 +1,13 @@
 package me.mahdiyar;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@org.springframework.boot.autoconfigure.SpringBootApplication
+@SpringBootApplication
 @EnableJpaRepositories
-public class SpringBootApplication {
+public class ShahedFinalProjectApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootApplication.class, args);
+        SpringApplication.run(ShahedFinalProjectApplication.class, args);
     }
 }
