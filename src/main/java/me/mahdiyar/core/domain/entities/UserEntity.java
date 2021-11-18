@@ -2,18 +2,20 @@ package me.mahdiyar.core.domain.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "users")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+@Table(name = "users"
+        , indexes = {@Index(unique = true, columnList = "username, deleted")})
+public class UserEntity extends BaseEntity {
     @Column(name = "username", unique = true)
     private String username;
     @Column(name = "hashed_password")

@@ -11,6 +11,7 @@ import java.util.Collection;
 
 @Mapper(componentModel = "spring")
 public interface UserServiceMapper {
+
     UserDto toUserDto(UserEntity model);
 
     Collection<UserDto> toUserDtoCollection(Collection<UserEntity> model);

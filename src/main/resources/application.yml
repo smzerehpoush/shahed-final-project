@@ -5,9 +5,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://sdb:5432/my_db
-    username: my_user
-    password: my_password
+    url: jdbc:postgresql://localhost:5432/shahed_db
+    username: postgres
+    password: root
 
   jpa:
     hibernate:

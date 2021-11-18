@@ -4,12 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum ResultStatus {
-    SUCCESS,
-    INTERNAL_SERVER_ERROR,
-    USER_NOT_FOUND,
-    USERNAME_ALREADY_EXISTS,
+    SUCCESS(0),
+    INTERNAL_SERVER_ERROR(500),
+    USER_NOT_FOUND(1000),
+    USERNAME_ALREADY_EXISTS(1001),
     ;
-    int code;
-    String message;
 
+    ResultStatus(int code) {
+        this.code = code;
+    }
+
+    int code;
 }

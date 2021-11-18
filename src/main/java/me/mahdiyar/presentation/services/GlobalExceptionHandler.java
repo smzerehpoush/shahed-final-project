@@ -13,17 +13,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ServiceResponse> handleExceptions(Throwable throwable, WebRequest request) {
+    public ResponseEntity<ServiceResponse> handleExceptions(Throwable throwable) {
         if (throwable instanceof ApplicationException)
             return handleApplicationException((ApplicationException) throwable);
         else if (throwable.getCause() != null)
-            return handleExceptions(throwable.getCause(), request);
+            return handleExceptions(throwable.getCause());
         else
             return handleOtherExceptions(throwable);
     }
 
     public ResponseEntity<ServiceResponse> handleApplicationException(ApplicationException exception) {
-        return ResponseEntity.status(exception.getHttpStatus()).body(new ServiceResponse(exception.getResultStatus(), exception.getMessage()));
+        return ResponseEntity.status(exception.getHttpStatus()).body(new ServiceResponse(exception.getResultStatus()));
     }
 
     public ResponseEntity<ServiceResponse> handleOtherExceptions(Throwable throwable) {

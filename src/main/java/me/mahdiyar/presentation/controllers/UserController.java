@@ -11,6 +11,7 @@ import me.mahdiyar.core.application.models.dto.users.responses.GetUsersResponseD
 import me.mahdiyar.core.application.models.dto.users.responses.UpdateUserResponseDto;
 import me.mahdiyar.core.application.services.user.IUserService;
 import me.mahdiyar.core.application.services.user.UserServiceMapper;
+import me.mahdiyar.core.domain.entities.UserEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +22,9 @@ public class UserController {
     private final UserServiceMapper userServiceMapper;
 
     @PostMapping
-    public UserDto createUser(@RequestBody CreateUserRequestDto request) throws ApplicationException{
-        return userServiceMapper.toUserDto(userService.createUser(request));
+    public UserDto createUser(@RequestBody CreateUserRequestDto request) throws ApplicationException {
+        UserEntity user = userService.createUser(request);
+        return userServiceMapper.toUserDto(user);
     }
 
     @GetMapping

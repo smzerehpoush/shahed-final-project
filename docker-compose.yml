@@ -1,17 +1,20 @@
 version: '3'
 services:
-  sapp:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-#    image: shahed-final-project:latest
     ports:
       - "8080:8080"
     networks:
       - shahed-final-project-network
     depends_on:
-      - sdb
-  sdb:
+      - db
+    environment:
+      spring.datasource.url: ${DB_URL}
+      spring.datasource.username: ${DB_USERNAME}
+      spring.datasource.password: ${DB_PASSWORD}
+  db:
     image: postgres
     restart: unless-stopped
     networks:
@@ -23,8 +26,10 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - db-data:/var/lib/postgresql/data
+
 networks:
   shahed-final-project-network:
     driver: bridge
+
 volumes:
   db-data:

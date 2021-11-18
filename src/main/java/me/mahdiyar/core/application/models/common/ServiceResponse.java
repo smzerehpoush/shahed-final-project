@@ -9,6 +9,8 @@ import me.mahdiyar.core.domain.enums.ResultStatus;
 @ToString
 @EqualsAndHashCode
 public class ServiceResponse {
+    private static final ServiceResponse successResponse = new ServiceResponse();
+
     public ServiceResponse() {
         this.result = Result.success();
     }
@@ -17,9 +19,9 @@ public class ServiceResponse {
         this.result = new Result(resultStatus);
     }
 
-    public ServiceResponse(ResultStatus resultStatus, String message) {
-        this.result = new Result(resultStatus, message);
-    }
-
     private final Result result;
+
+    public static ServiceResponse success() {
+        return successResponse;
+    }
 }
