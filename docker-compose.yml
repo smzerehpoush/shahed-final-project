@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "4040:8080"
+      - "8000:8080"
     networks:
       - shahed-final-project-network
     depends_on:
