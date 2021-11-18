@@ -5,14 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "4040:8080"
     networks:
       - shahed-final-project-network
     depends_on:
       - db
     environment:
       spring.datasource.url: ${DB_URL}
-      spring.datasource.username: ${DB_USERNAME}
+      spring.datasource.username: ${DB_USER}
       spring.datasource.password: ${DB_PASSWORD}
   db:
     image: postgres
