@@ -1,8 +1,10 @@
 package me.mahdiyar.core.application.services.user;
 
+import me.mahdiyar.core.application.models.domainModels.user.LoginResponseModel;
 import me.mahdiyar.core.application.models.dto.users.UserDto;
-import me.mahdiyar.core.application.models.dto.users.responses.GetUserResponseDto;
 import me.mahdiyar.core.application.models.dto.users.responses.GetUsersResponseDto;
+import me.mahdiyar.core.application.models.dto.users.responses.LoginResponseDto;
+import me.mahdiyar.core.application.models.dto.users.responses.SignInResponseDto;
 import me.mahdiyar.core.application.models.dto.users.responses.UpdateUserResponseDto;
 import me.mahdiyar.core.domain.entities.UserEntity;
 import org.mapstruct.Mapper;
@@ -20,11 +22,13 @@ public interface UserServiceMapper {
         return new GetUsersResponseDto(toUserDtoCollection(users));
     }
 
-    default GetUserResponseDto toGetUserResponseDto(UserEntity user) {
-        return new GetUserResponseDto(toUserDto(user));
+    default SignInResponseDto toSignupResponseDto(UserEntity user) {
+        return new SignInResponseDto(toUserDto(user));
     }
 
     default UpdateUserResponseDto toUpdateUserResponseDto(UserEntity user) {
         return new UpdateUserResponseDto(toUserDto(user));
     }
+
+    LoginResponseDto toLoginResponseDto(LoginResponseModel logingResponseModel);
 }

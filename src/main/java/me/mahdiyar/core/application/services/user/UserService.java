@@ -2,10 +2,15 @@ package me.mahdiyar.core.application.services.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.mahdiyar.core.application.exceptions.ApplicationException;
+import me.mahdiyar.core.application.exceptions.AuthenticationException;
 import me.mahdiyar.core.application.exceptions.users.UserNotFoundException;
 import me.mahdiyar.core.application.exceptions.users.UsernameAlreadyExistsException;
-import me.mahdiyar.core.application.models.dto.users.requests.CreateUserRequestDto;
+import me.mahdiyar.core.application.models.domainModels.user.LoginResponseModel;
+import me.mahdiyar.core.application.models.dto.users.requests.LoginRequestDto;
+import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;
+import me.mahdiyar.core.application.services.userAuthentication.UserAuthenticationService;
 import me.mahdiyar.core.domain.entities.UserEntity;
 import me.mahdiyar.core.domain.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,16 +24,17 @@ import java.util.Collection;
 public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserAuthenticationService userAuthenticationService;
 
     @Override
-    public UserEntity createUser(CreateUserRequestDto request) throws UsernameAlreadyExistsException {
-        logger.info("trying to create user with request {}", request);
-        String username = request.getUsername();
+    public UserEntity signup(SignupRequestDto request) throws ApplicationException {
+        logger.info("trying to sign in user with request {}", request);
+        var username = request.getUsername();
         if (existsByUsername(username)) {
             logger.info("user with username {} already exists", username);
             throw new UsernameAlreadyExistsException();
         }
-        UserEntity userEntity = new UserEntity(request.getUsername(), passwordEncoder.encode(request.getPassword()));
+        var userEntity = new UserEntity(request.getUsername(), passwordEncoder.encode(request.getPassword()));
         userEntity = userRepository.saveAndFlush(userEntity);
         logger.info("user created successfully with id {}", userEntity.getId());
         return userEntity;
@@ -41,16 +47,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserEntity getUser(long userId) throws UserNotFoundException {
+    public UserEntity getUser(long userId) throws ApplicationException {
         logger.info("trying to get user with id {}", userId);
         return userRepository.findByIdAndDeletedFalse(userId).orElseThrow(UserNotFoundException::new);
     }
 
     @Override
-    public UserEntity updateUser(long userId, UpdateUserRequestDto request) throws UserNotFoundException, UsernameAlreadyExistsException {
+    public UserEntity updateUser(long userId, UpdateUserRequestDto request) throws ApplicationException {
         logger.info("trying to update user with userId {} and request {}", userId, request);
-        UserEntity user = getUser(userId);
-        String username = request.getUsername();
+        var user = getUser(userId);
+        var username = request.getUsername();
         if (existsByUsername(username)) {
             throw new UsernameAlreadyExistsException();
         }
@@ -63,11 +69,22 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(long userId) throws UserNotFoundException {
+    public void deleteUser(long userId) throws ApplicationException {
         logger.info("trying to delete user with id {}", userId);
-        UserEntity userEntity = getUser(userId);
+        var userEntity = getUser(userId);
         userEntity.delete();
         userRepository.delete(userEntity);
         logger.info("user with userId {} deleted successfully", userId);
     }
+
+    @Override
+    public LoginResponseModel login(LoginRequestDto request) throws ApplicationException {
+        logger.info("trying to login with username {}", request.getUsername());
+        var user = userRepository.findByUsernameAndDeletedFalse(request.getUsername()).orElseThrow(UserNotFoundException::new);
+        if (!passwordEncoder.matches(request.getPassword(), user.getEncodedPassword()))
+            throw new AuthenticationException();
+        var tokenPair = userAuthenticationService.createTokenForUser(user);
+        return new LoginResponseModel(tokenPair.getFirst(), tokenPair.getSecond().getExpireDate().getTime());
+    }
+
 }

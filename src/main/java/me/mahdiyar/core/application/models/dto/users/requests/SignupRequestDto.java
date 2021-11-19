@@ -5,7 +5,7 @@ import me.mahdiyar.core.application.models.common.ServiceRequest;
 import org.springframework.lang.NonNull;
 
 @Data
-public class CreateUserRequestDto extends ServiceRequest {
+public class SignupRequestDto extends ServiceRequest {
     @NonNull
     private String username;
     @NonNull

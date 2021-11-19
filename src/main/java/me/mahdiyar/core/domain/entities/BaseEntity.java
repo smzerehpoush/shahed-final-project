@@ -24,7 +24,7 @@ public class BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseEntity that = (BaseEntity) o;
+        var that = (BaseEntity) o;
         return id == that.id;
     }
 
