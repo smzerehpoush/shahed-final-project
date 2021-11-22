@@ -24,7 +24,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final RequestMatcher PUBLIC_APIS = new OrRequestMatcher(
             new AntPathRequestMatcher("/api/v1/users/signup"),
-            new AntPathRequestMatcher("/api/device/**"),
+            new AntPathRequestMatcher("/api/device/sendData"),
             new AntPathRequestMatcher("/v1/users/login"),
             new AntPathRequestMatcher("/v1/users/signup"),
             new AntPathRequestMatcher("/v2/api-docs"),
