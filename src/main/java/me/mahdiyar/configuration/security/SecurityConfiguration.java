@@ -65,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .csrf().disable()
-                .addFilterBefore(corsFilter(), SessionManagementFilter.class)
+                .addFilterBefore(myCorsFilter(), SessionManagementFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -100,7 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    CorsFilter corsFilter() {
+    CorsFilter myCorsFilter() {
         return new CorsFilter();
     }
 
