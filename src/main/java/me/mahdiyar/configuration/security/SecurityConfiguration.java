@@ -111,8 +111,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-//                        .allowedOrigins("http://localhost:3000/")
-//                        .allowedHeaders("*")
+                        .allowedOrigins("*")
+                        .allowedHeaders("*")
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
             }
         };
