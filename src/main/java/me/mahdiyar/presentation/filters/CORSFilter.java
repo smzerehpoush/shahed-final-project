@@ -26,12 +26,12 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
 //        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 //        }
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, DELETE, PUT, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers",
-                "X-Requested-With, Content-Type, Origin, Authorization");
+                "X-Requested-With, Content-Type, Origin, Referer, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Expose-Headers", "Content-Type, Origin, Accept, X-Requested-With, Authorization");
+        response.setHeader("Access-Control-Expose-Headers", "Content-Type, Origin, Referer, Accept, X-Requested-With, Authorization");
         filterChain.doFilter(servletRequest, response);
     }
 
