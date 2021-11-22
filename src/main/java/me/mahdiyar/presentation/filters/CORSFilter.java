@@ -23,7 +23,8 @@ public class CORSFilter implements Filter {
         String requestOrigin = ((HttpServletRequest) servletRequest).getHeader("Referer");
         logger.info("request origin: " + requestOrigin);
 //        if (requestOrigin != null) {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 //        }
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
