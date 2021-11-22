@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().requestMatchers(PUBLIC_APIS);
+//        web.ignoring().requestMatchers(PUBLIC_APIS);
     }
 
     @Override
@@ -53,7 +53,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
 
                 .cors().disable()
-//                .cors().and()
                 .csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
