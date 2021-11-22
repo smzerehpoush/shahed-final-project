@@ -20,7 +20,7 @@ public class CORSFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String requestOrigin = ((HttpServletRequest) servletRequest).getHeader("Origin");
+        String requestOrigin = ((HttpServletRequest) servletRequest).getHeader("Referer");
         logger.info("request origin: " + requestOrigin);
         if (requestOrigin != null) {
             response.setHeader("Access-Control-Allow-Origin", requestOrigin);
