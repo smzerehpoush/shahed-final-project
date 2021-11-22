@@ -1,5 +1,6 @@
 package me.mahdiyar.presentation.filters;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class CORSFilter implements Filter {
 
     @Override
@@ -20,6 +22,7 @@ public class CORSFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestOrigin = ((HttpServletRequest) servletRequest).getHeader("Origin");
         if (requestOrigin != null) {
+            logger.info("request origin: " + requestOrigin);
             response.setHeader("Access-Control-Allow-Origin", requestOrigin);
         }
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
