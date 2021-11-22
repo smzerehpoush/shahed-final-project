@@ -1,7 +1,6 @@
 package me.mahdiyar.configuration.security;
 
 import lombok.RequiredArgsConstructor;
-import me.mahdiyar.configuration.cors.CorsFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -66,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .csrf().disable()
-                .addFilterBefore(corsFilter(), SessionManagementFilter.class)
+//                .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -100,10 +98,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new HttpStatusEntryPoint(HttpStatus.FORBIDDEN);
     }
 
-    @Bean
-    CorsFilter corsFilter() {
-        return new CorsFilter();
-    }
+//    @Bean
+//    CorsFilter corsFilter() {
+//        return new CorsFilter();
+//    }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
