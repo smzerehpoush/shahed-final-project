@@ -21,6 +21,10 @@ public class CORSFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestOrigin = ((HttpServletRequest) servletRequest).getHeader("Referer");
+        if (((HttpServletRequest) servletRequest).getServletPath().contains("login")) {
+            filterChain.doFilter(servletRequest, response);
+            return;
+        }
         logger.info("request origin: " + requestOrigin);
 //        if (requestOrigin != null) {
         response.setHeader("Access-Control-Allow-Origin", "*");
