@@ -21,6 +21,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("v1/users/")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final IUserService userService;
     private final UserServiceMapper userServiceMapper;
@@ -37,6 +38,7 @@ public class UserController {
         return userServiceMapper.toSignupResponseDto(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public GetUsersResponseDto getUsers() {
         Collection<UserEntity> users = userService.getUsers();
