@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,13 +18,18 @@ public class UserEntity extends BaseEntity {
     private String username;
     @Column(name = "encoded_password")
     private String encodedPassword;
-    @Column(name = "deleted")
-    private boolean deleted = false;
+    @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
+    @Column(name = "is_admin", nullable = false, columnDefinition = "boolean default false")
+    private boolean isAdmin;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = DeviceEntity.class, mappedBy = "user")
+    private Set<DeviceEntity> devices;
 
     public UserEntity(String username, String hashedPassword) {
         this.username = username;
         this.encodedPassword = hashedPassword;
         this.deleted = false;
+        this.isAdmin = false;
     }
 
     public void updateUsername(String username) {

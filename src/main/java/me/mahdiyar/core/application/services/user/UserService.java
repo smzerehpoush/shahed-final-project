@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.mahdiyar.core.application.exceptions.ApplicationException;
 import me.mahdiyar.core.application.exceptions.AuthenticationException;
+import me.mahdiyar.core.application.exceptions.ForbiddenActionException;
 import me.mahdiyar.core.application.exceptions.users.UserNotFoundException;
 import me.mahdiyar.core.application.exceptions.users.UsernameAlreadyExistsException;
-import me.mahdiyar.core.application.models.domainModels.user.LoginResponseModel;
+import me.mahdiyar.core.application.models.LoginResponseModel;
 import me.mahdiyar.core.application.models.dto.users.requests.LoginRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;
@@ -22,6 +23,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService implements IUserService {
+    private static final String AdminUsername = "admin";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserAuthenticationService userAuthenticationService;
@@ -55,6 +57,8 @@ public class UserService implements IUserService {
     @Override
     public UserEntity updateUser(long userId, UpdateUserRequestDto request) throws ApplicationException {
         logger.info("trying to update user with userId {} and request {}", userId, request);
+        if (AdminUsername.equals(request.getUsername()))
+            throw new ForbiddenActionException();
         var user = getUser(userId);
         var username = request.getUsername();
         if (existsByUsername(username)) {
@@ -70,6 +74,7 @@ public class UserService implements IUserService {
 
     @Override
     public void deleteUser(long userId) throws ApplicationException {
+
         logger.info("trying to delete user with id {}", userId);
         var userEntity = getUser(userId);
         userEntity.delete();

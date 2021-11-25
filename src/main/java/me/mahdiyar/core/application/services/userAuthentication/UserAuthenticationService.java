@@ -11,10 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +25,19 @@ public class UserAuthenticationService implements IUserAuthenticationService {
 
     @Override
     public Pair<String, TokenEntity> createTokenForUser(UserEntity user) {
-        var plainToken = UUID.randomUUID().toString();
+        var plainToken = generateSafeToken();
         var hashedToken = HashGenerator.generateHash(plainToken);
         var tokenEntity = new TokenEntity(hashedToken, createTokenExpireDate(), user);
         tokenRepository.save(tokenEntity);
         return Pair.of(plainToken, tokenEntity);
+    }
+
+    private String generateSafeToken() {
+        var random = new SecureRandom();
+        var bytes = new byte[128];
+        random.nextBytes(bytes);
+        var encoder = Base64.getUrlEncoder().withoutPadding();
+        return encoder.encodeToString(bytes);
     }
 
     @Override

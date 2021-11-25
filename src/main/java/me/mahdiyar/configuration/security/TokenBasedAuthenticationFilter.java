@@ -34,9 +34,9 @@ public class TokenBasedAuthenticationFilter extends AbstractAuthenticationProces
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException {
         if (
-                httpServletRequest.getServletPath().startsWith("api/v1/users/login") ||
-                        httpServletRequest.getServletPath().startsWith("api/v1/users/signup") ||
-                        httpServletRequest.getServletPath().startsWith("api/device")
+                httpServletRequest.getServletPath().startsWith("/api/v1/users/login") ||
+                        httpServletRequest.getServletPath().startsWith("/api/v1/users/signup") ||
+                        httpServletRequest.getServletPath().startsWith("/api/device")
         ) {
             return new SuccessfulAuthentication();
         }
@@ -49,7 +49,7 @@ public class TokenBasedAuthenticationFilter extends AbstractAuthenticationProces
         return getAuthenticationManager().authenticate(authenticationRequest);
     }
 
-    class SuccessfulAuthentication implements Authentication {
+    static class SuccessfulAuthentication implements Authentication {
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {

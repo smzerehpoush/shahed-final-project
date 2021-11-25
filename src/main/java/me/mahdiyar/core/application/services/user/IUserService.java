@@ -1,7 +1,7 @@
 package me.mahdiyar.core.application.services.user;
 
 import me.mahdiyar.core.application.exceptions.ApplicationException;
-import me.mahdiyar.core.application.models.domainModels.user.LoginResponseModel;
+import me.mahdiyar.core.application.models.LoginResponseModel;
 import me.mahdiyar.core.application.models.dto.users.requests.LoginRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;

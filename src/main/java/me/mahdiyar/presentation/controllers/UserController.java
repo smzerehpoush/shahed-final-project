@@ -2,8 +2,8 @@ package me.mahdiyar.presentation.controllers;
 
 import lombok.RequiredArgsConstructor;
 import me.mahdiyar.core.application.exceptions.ApplicationException;
+import me.mahdiyar.core.application.models.LoginResponseModel;
 import me.mahdiyar.core.application.models.common.ServiceResponse;
-import me.mahdiyar.core.application.models.domainModels.user.LoginResponseModel;
 import me.mahdiyar.core.application.models.dto.users.requests.LoginRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;
@@ -21,7 +21,6 @@ import java.util.Collection;
 @RestController
 @RequestMapping("api/v1/users/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final IUserService userService;
     private final UserServiceMapper userServiceMapper;

@@ -1,4 +1,4 @@
-package me.mahdiyar.core.application.models.domainModels.user;
+package me.mahdiyar.core.application.models;
 
 import lombok.Data;
 
