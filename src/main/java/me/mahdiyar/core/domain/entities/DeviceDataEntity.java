@@ -32,9 +32,9 @@ public class DeviceDataEntity extends BaseEntity {
     @Column(name = "battrey")
     private int battrey;
     @Column(name = "temperature")
-    private double temperature;
+    private Double temperature;
     @Column(name = "humidity")
-    private double humidity;
+    private Double humidity;
 
     public DeviceDataEntity(long deviceId, String latitude, String longitude, int altitude, long samplingDate, String btsLatitude, String btsLongitude, int battrey, double temperature, double humidity) {
         this.deviceId = deviceId;
