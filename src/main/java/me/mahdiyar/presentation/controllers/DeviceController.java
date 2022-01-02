@@ -11,7 +11,8 @@ import me.mahdiyar.core.application.models.dto.device.responses.GetUserDevicesRe
 import me.mahdiyar.core.application.models.dto.device.responses.UpdateDeviceResponseDto;
 import me.mahdiyar.core.application.services.device.DeviceServiceMapper;
 import me.mahdiyar.core.application.services.device.IDeviceService;
-import me.mahdiyar.core.application.services.userDevice.IUserDeviceService;
+import me.mahdiyar.core.application.services.user_device.IUserDeviceService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,6 +42,12 @@ public class DeviceController {
         return deviceServiceMapper.toUpdateDeviceResponseDto(device);
     }
 
+    @PostMapping("{deviceId}/create-test-data")
+    public ResponseEntity<Void> createTestDataForDevice(@PathVariable long userId, @PathVariable long deviceId) throws ApplicationException {
+        deviceService.createTestDataForDevice(userId, deviceId);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("{deviceId}")
     public ServiceResponse deleteDevice(@PathVariable long userId, @PathVariable long deviceId) throws ApplicationException {
         deviceService.deleteDevice(userId, deviceId);
@@ -49,7 +56,7 @@ public class DeviceController {
 
 
     @GetMapping("{deviceId}/data")
-    public GetUserDeviceDataResponseDto getUserDevices(@PathVariable long userId, @PathVariable long deviceId) throws ApplicationException {
+    public GetUserDeviceDataResponseDto getDeviceData(@PathVariable long userId, @PathVariable long deviceId) throws ApplicationException {
         var deviceDataList = userDeviceService.getUserDeviceDataList(userId, deviceId);
         return deviceServiceMapper.toGetUserDeviceDataResponseDto(deviceDataList);
     }

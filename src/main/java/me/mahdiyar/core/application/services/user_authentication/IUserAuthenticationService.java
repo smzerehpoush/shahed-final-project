@@ -1,4 +1,4 @@
-package me.mahdiyar.core.application.services.userAuthentication;
+package me.mahdiyar.core.application.services.user_authentication;
 
 import me.mahdiyar.core.domain.entities.TokenEntity;
 import me.mahdiyar.core.domain.entities.UserEntity;

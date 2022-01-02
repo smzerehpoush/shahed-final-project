@@ -6,5 +6,5 @@ import me.mahdiyar.core.application.models.dto.device.DeviceDto;
 
 @Data
 public class UpdateDeviceResponseDto extends ServiceResponse {
-    public DeviceDto device;
+    private DeviceDto device;
 }

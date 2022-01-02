@@ -13,11 +13,6 @@ public class Result {
         this.status = status;
     }
 
-    public Result(ResultStatus status, String message) {
-        this.code = status.getCode();
-        this.status = status;
-    }
-
     public static Result success() {
         return new Result(ResultStatus.SUCCESS);
     }

@@ -1,4 +1,4 @@
-package me.mahdiyar.core.application.services.userDevice;
+package me.mahdiyar.core.application.services.user_device;
 
 import lombok.RequiredArgsConstructor;
 import me.mahdiyar.core.application.exceptions.ApplicationException;
@@ -22,8 +22,9 @@ public class UserDeviceService implements IUserDeviceService {
     public List<DeviceDataEntity> getUserDeviceDataList(long userId, long deviceId) throws ApplicationException {
         var user = userService.getUser(userId);
         var device = deviceService.getDevice(deviceId);
-        if (!Objects.equals(userId, device.getUser().getId()))
+        if (!Objects.equals(device.getUser(), user)) {
             throw new ForbiddenActionException();
+        }
         return deviceDataRepository.findAllByDeviceId(deviceId);
     }
 }

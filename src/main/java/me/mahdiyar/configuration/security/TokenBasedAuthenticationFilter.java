@@ -15,11 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class TokenBasedAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private static final String AuthorizationHeader = "Authorization";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     public TokenBasedAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher) {
         super(requiresAuthenticationRequestMatcher);
@@ -40,7 +41,7 @@ public class TokenBasedAuthenticationFilter extends AbstractAuthenticationProces
         ) {
             return new SuccessfulAuthentication();
         }
-        var token = Optional.ofNullable(httpServletRequest.getHeader(AuthorizationHeader))
+        var token = Optional.ofNullable(httpServletRequest.getHeader(AUTHORIZATION_HEADER))
                 .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("authorization header is not present"))
                 .replace("Bearer ", "")
                 .replace("bearer ", "")
@@ -53,7 +54,7 @@ public class TokenBasedAuthenticationFilter extends AbstractAuthenticationProces
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return null;
+            return List.of();
         }
 
         @Override
@@ -77,8 +78,8 @@ public class TokenBasedAuthenticationFilter extends AbstractAuthenticationProces
         }
 
         @Override
-        public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
+        public void setAuthenticated(boolean isAuthenticated) {
+            //not implemented
         }
 
         @Override

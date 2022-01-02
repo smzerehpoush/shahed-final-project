@@ -20,4 +20,6 @@ public interface IDeviceService {
     DeviceEntity updateDevice(long userId, long deviceId, UpdateDeviceRequestDto request) throws ApplicationException;
 
     void deleteDevice(long userId, long deviceId) throws ApplicationException;
+
+    void createTestDataForDevice(long userId, long deviceId) throws ApplicationException;
 }

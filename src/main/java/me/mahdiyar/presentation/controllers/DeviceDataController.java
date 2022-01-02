@@ -17,7 +17,7 @@ public class DeviceDataController {
     private final IDeviceService deviceService;
 
     @PostMapping("sendData")
-    public ServiceResponse SaveDeviceData(@RequestBody SaveDeviceDataRequestDto request) throws ApplicationException {
+    public ServiceResponse saveDeviceData(@RequestBody SaveDeviceDataRequestDto request) throws ApplicationException {
         deviceService.saveDeviceData(request);
         return ServiceResponse.success();
     }

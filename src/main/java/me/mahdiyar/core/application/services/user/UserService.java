@@ -11,7 +11,7 @@ import me.mahdiyar.core.application.models.LoginResponseModel;
 import me.mahdiyar.core.application.models.dto.users.requests.LoginRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;
-import me.mahdiyar.core.application.services.userAuthentication.UserAuthenticationService;
+import me.mahdiyar.core.application.services.user_authentication.UserAuthenticationService;
 import me.mahdiyar.core.domain.entities.UserEntity;
 import me.mahdiyar.core.domain.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +23,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService implements IUserService {
-    private static final String AdminUsername = "admin";
+    private static final String ADMIN_USERNAME = "admin";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserAuthenticationService userAuthenticationService;
@@ -57,7 +57,7 @@ public class UserService implements IUserService {
     @Override
     public UserEntity updateUser(long userId, UpdateUserRequestDto request) throws ApplicationException {
         logger.info("trying to update user with userId {} and request {}", userId, request);
-        if (AdminUsername.equals(request.getUsername()))
+        if (ADMIN_USERNAME.equals(request.getUsername()))
             throw new ForbiddenActionException();
         var user = getUser(userId);
         var username = request.getUsername();

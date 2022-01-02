@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateDeviceRequestDto {
-    public String deviceName;
-    public long deviceId;
+    private String deviceName;
+    private long deviceId;
 }

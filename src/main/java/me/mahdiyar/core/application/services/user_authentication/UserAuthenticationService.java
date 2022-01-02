@@ -1,4 +1,4 @@
-package me.mahdiyar.core.application.services.userAuthentication;
+package me.mahdiyar.core.application.services.user_authentication;
 
 import lombok.RequiredArgsConstructor;
 import me.mahdiyar.core.application.common.HashGenerator;
@@ -36,8 +36,7 @@ public class UserAuthenticationService implements IUserAuthenticationService {
         var random = new SecureRandom();
         var bytes = new byte[128];
         random.nextBytes(bytes);
-        var encoder = Base64.getUrlEncoder().withoutPadding();
-        return encoder.encodeToString(bytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 
     @Override

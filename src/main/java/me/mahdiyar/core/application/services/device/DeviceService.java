@@ -16,7 +16,9 @@ import me.mahdiyar.core.domain.repositories.DeviceDataRepository;
 import me.mahdiyar.core.domain.repositories.DeviceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 @Service
@@ -27,6 +29,7 @@ public class DeviceService implements IDeviceService {
     private final DeviceRepository deviceRepository;
     private final DeviceServiceMapper deviceServiceMapper;
     private final IUserService userService;
+    private final Random random = new Random(System.currentTimeMillis());
 
     @Override
     public void saveDeviceData(SaveDeviceDataRequestDto request) {
@@ -39,12 +42,12 @@ public class DeviceService implements IDeviceService {
     @Override
     public DeviceEntity createDevice(long userId, CreateDeviceRequestDto request) throws ApplicationException {
         var user = userService.getUser(userId);
-        var existsByDeviceId = deviceRepository.existsAllByUserDeviceId(request.deviceId);
+        var existsByDeviceId = deviceRepository.existsAllByUserDeviceId(request.getDeviceId());
         if (existsByDeviceId)
             throw new DuplicateDeviceException();
         var device = new DeviceEntity();
-        device.setUserDeviceId(request.deviceId);
-        device.setName(request.deviceName);
+        device.setUserDeviceId(request.getDeviceId());
+        device.setName(request.getDeviceName());
         device.setUser(user);
         return deviceRepository.saveAndFlush(device);
     }
@@ -57,15 +60,16 @@ public class DeviceService implements IDeviceService {
     @Override
     public Set<DeviceEntity> getUserDevices(long userId) throws ApplicationException {
         var user = userService.getUser(userId);
-        var userDevices = deviceRepository.findAllByUserId(userId);
+        var userDevices = deviceRepository.findAllByUserId(user.getId());
         logger.info("user devices count for userId {} is {}", userId, userDevices.size());
         return userDevices;
     }
 
     @Override
     public DeviceEntity updateDevice(long userId, long deviceId, UpdateDeviceRequestDto request) throws ApplicationException {
+        var user = userService.getUser(userId);
         var device = getDevice(deviceId);
-        if (!Objects.equals(device.getUser().getId(), userId))
+        if (!Objects.equals(device.getUser(), user))
             throw new ForbiddenActionException();
         device.setName(request.getDeviceName());
         return deviceRepository.saveAndFlush(device);
@@ -73,11 +77,35 @@ public class DeviceService implements IDeviceService {
 
     @Override
     public void deleteDevice(long userId, long deviceId) throws ApplicationException {
+        var user = userService.getUser(userId);
         var device = getDevice(deviceId);
-        if (!Objects.equals(device.getUser().getId(), userId))
+        if (!Objects.equals(device.getUser(), user))
             throw new ForbiddenActionException();
         device.setDeleted(true);
         deviceRepository.saveAndFlush(device);
+    }
+
+    @Override
+    public void createTestDataForDevice(long userId, long deviceId) throws ApplicationException {
+        var user = userService.getUser(userId);
+        var device = getDevice(deviceId);
+        if (!Objects.equals(device.getUser(), user))
+            throw new ForbiddenActionException();
+        var testDataSize = 300 + random.nextInt(200);
+        var testData = new ArrayList<DeviceDataEntity>(testDataSize);
+        for (int i = 0; i < testDataSize; i++) {
+            var latitude = String.valueOf(35.7 + (double) random.nextInt(1000) / 1000000);
+            var longitude = String.valueOf(51.3 + (double) random.nextInt(1000) / 1000000);
+            var btsLatitude = String.valueOf(35.7 + (double) random.nextInt(1000) / 1000000);
+            var btsLongitude = String.valueOf(51.3 + (double) random.nextInt(1000) / 1000000);
+            var battrey = random.nextInt(100);
+            var temperature = 25.0 + random.nextInt(5);
+            var humidity = 10.0 + random.nextInt(5);
+            var altitude = random.nextInt(100);
+            var data = new DeviceDataEntity(device.getUserDeviceId(), latitude, longitude, altitude, System.currentTimeMillis(), btsLatitude, btsLongitude, battrey, temperature, humidity);
+            testData.add(data);
+        }
+        deviceDataRepository.saveAll(testData);
     }
 
 }

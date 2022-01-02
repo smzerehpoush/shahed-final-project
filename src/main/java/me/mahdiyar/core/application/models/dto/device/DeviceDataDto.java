@@ -12,4 +12,6 @@ public class DeviceDataDto {
     private String btsLatitude;
     private String btsLongitude;
     private int battrey;
+    private double temperature;
+    private double humidity;
 }

@@ -1,4 +1,4 @@
-package me.mahdiyar.core.application.services.userDevice;
+package me.mahdiyar.core.application.services.user_device;
 
 import me.mahdiyar.core.application.exceptions.ApplicationException;
 import me.mahdiyar.core.domain.entities.DeviceDataEntity;

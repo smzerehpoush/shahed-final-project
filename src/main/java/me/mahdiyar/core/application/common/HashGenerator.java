@@ -7,6 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class HashGenerator {
+    private HashGenerator() {
+    }
+
     @SneakyThrows
     public static String generateHash(String data) {
         return generateHash(data.getBytes(StandardCharsets.UTF_8));

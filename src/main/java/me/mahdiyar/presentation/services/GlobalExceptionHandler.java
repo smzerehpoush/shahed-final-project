@@ -21,14 +21,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         else if (ex.getCause() != null)
             return handleExceptions((Exception) ex.getCause());
         else
-            return handleOtherExceptions(ex);
+            return handleOtherExceptions();
     }
 
     public ResponseEntity<ServiceResponse> handleApplicationException(ApplicationException exception) {
         return ResponseEntity.status(exception.getHttpStatus()).body(new ServiceResponse(exception.getResultStatus()));
     }
 
-    public ResponseEntity<ServiceResponse> handleOtherExceptions(Throwable throwable) {
+    public ResponseEntity<ServiceResponse> handleOtherExceptions() {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ServiceResponse(ResultStatus.INTERNAL_SERVER_ERROR));
 
     }

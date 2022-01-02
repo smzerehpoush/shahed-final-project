@@ -1,7 +1,7 @@
 package me.mahdiyar.configuration.security;
 
 import lombok.RequiredArgsConstructor;
-import me.mahdiyar.core.application.services.userAuthentication.IUserAuthenticationService;
+import me.mahdiyar.core.application.services.user_authentication.IUserAuthenticationService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;

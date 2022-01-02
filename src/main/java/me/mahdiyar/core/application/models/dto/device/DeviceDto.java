@@ -1,6 +1,9 @@
 package me.mahdiyar.core.application.models.dto.device;
 
+import lombok.Data;
+
+@Data
 public class DeviceDto {
-    public String name;
-    public long id;
+    private String name;
+    private long id;
 }
