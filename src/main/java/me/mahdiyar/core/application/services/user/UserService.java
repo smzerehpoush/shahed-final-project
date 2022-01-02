@@ -89,7 +89,7 @@ public class UserService implements IUserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getEncodedPassword()))
             throw new AuthenticationException();
         var tokenPair = userAuthenticationService.createTokenForUser(user);
-        return new LoginResponseModel(tokenPair.getFirst(), tokenPair.getSecond().getExpireDate().getTime());
+        return new LoginResponseModel(user.getId(), tokenPair.getFirst(), tokenPair.getSecond().getExpireDate().getTime());
     }
 
 }
