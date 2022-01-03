@@ -16,27 +16,27 @@ import java.util.Objects;
 @NoArgsConstructor
 public class DeviceDataEntity extends BaseEntity {
     @Column(name = "device_id")
-    private long deviceId;
+    private Long deviceId;
     @Column(name = "latitude")
     private String latitude;
     @Column(name = "longitude")
     private String longitude;
     @Column(name = "altitude")
-    private int altitude;
+    private Integer altitude;
     @Column(name = "sampling_date")
-    private long samplingDate;
+    private Long samplingDate;
     @Column(name = "bts_latitude")
     private String btsLatitude;
     @Column(name = "bts_longitude")
     private String btsLongitude;
-    @Column(name = "battrey")
-    private int battrey;
+    @Column(name = "battery")
+    private Integer battery;
     @Column(name = "temperature")
     private Double temperature;
     @Column(name = "humidity")
     private Double humidity;
 
-    public DeviceDataEntity(long deviceId, String latitude, String longitude, int altitude, long samplingDate, String btsLatitude, String btsLongitude, int battrey, double temperature, double humidity) {
+    public DeviceDataEntity(long deviceId, String latitude, String longitude, int altitude, long samplingDate, String btsLatitude, String btsLongitude, int battery, double temperature, double humidity) {
         this.deviceId = deviceId;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -44,7 +44,7 @@ public class DeviceDataEntity extends BaseEntity {
         this.samplingDate = samplingDate;
         this.btsLatitude = btsLatitude;
         this.btsLongitude = btsLongitude;
-        this.battrey = battrey;
+        this.battery = battery;
         this.temperature = temperature;
         this.humidity = humidity;
     }
@@ -55,7 +55,7 @@ public class DeviceDataEntity extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         DeviceDataEntity that = (DeviceDataEntity) o;
-        return deviceId == that.deviceId;
+        return Objects.equals(deviceId, that.deviceId);
     }
 
     @Override

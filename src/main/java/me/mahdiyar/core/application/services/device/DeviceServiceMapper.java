@@ -13,6 +13,7 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public interface DeviceServiceMapper {
     @Mapping(target = "samplingDate", source = "dt")
     @Mapping(target = "btsLatitude", source = "latb")
     @Mapping(target = "btsLongitude", source = "lonb")
-    @Mapping(target = "battrey", source = "vbat")
+    @Mapping(target = "battery", source = "vbat")
     DeviceDataEntity toDeviceDataEntity(SaveDeviceDataRequestDto request);
 
     @Mapping(target = "name", source = "name")
@@ -47,11 +48,36 @@ public interface DeviceServiceMapper {
         return new GetUserDevicesResponseDto(deviceDtoList);
     }
 
-    DeviceDataDto toDeviceDataDto(DeviceDataEntity deviceDataEntity);
+    default DeviceDataDto toDeviceDataDto(DeviceDataEntity deviceDataEntity) {
+        try {
+            var deviceData = new DeviceDataDto();
+            deviceData.setDeviceId(deviceDataEntity.getDeviceId());
+            deviceData.setLatitude(Double.parseDouble(deviceDataEntity.getLatitude()));
+            deviceData.setLongitude(Double.parseDouble(deviceDataEntity.getLongitude()));
+            deviceData.setAltitude(deviceDataEntity.getAltitude());
+            deviceData.setSamplingDate(deviceDataEntity.getSamplingDate());
+            deviceData.setBtsLatitude(Double.parseDouble(deviceDataEntity.getBtsLatitude()));
+            deviceData.setBtsLongitude(Double.parseDouble(deviceDataEntity.getBtsLongitude()));
+            deviceData.setBattery(deviceDataEntity.getBattery());
+            deviceData.setTemperature(deviceDataEntity.getTemperature());
+            deviceData.setHumidity(deviceDataEntity.getHumidity());
+
+            return deviceData;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     @Mapping(target = "deviceDataList", source = "devices")
     default GetUserDeviceDataResponseDto toGetUserDeviceDataResponseDto(List<DeviceDataEntity> devices) {
-        var deviceDataDtoList = devices.stream().map(this::toDeviceDataDto).collect(Collectors.toList());
+
+        var deviceDataDtoList = new ArrayList<DeviceDataDto>();
+        for (DeviceDataEntity data : devices) {
+            var dto = toDeviceDataDto(data);
+            if (dto != null) {
+                deviceDataDtoList.add(dto);
+            }
+        }
         return new GetUserDeviceDataResponseDto(deviceDataDtoList);
     }
 }

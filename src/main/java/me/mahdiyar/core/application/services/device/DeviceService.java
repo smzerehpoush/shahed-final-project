@@ -98,11 +98,11 @@ public class DeviceService implements IDeviceService {
             var longitude = String.valueOf(51.3 + (double) random.nextInt(1000) / 1000000);
             var btsLatitude = String.valueOf(35.7 + (double) random.nextInt(1000) / 1000000);
             var btsLongitude = String.valueOf(51.3 + (double) random.nextInt(1000) / 1000000);
-            var battrey = random.nextInt(100);
+            var battery = random.nextInt(100);
             var temperature = 25.0 + random.nextInt(5);
             var humidity = 10.0 + random.nextInt(5);
             var altitude = random.nextInt(100);
-            var data = new DeviceDataEntity(device.getUserDeviceId(), latitude, longitude, altitude, System.currentTimeMillis(), btsLatitude, btsLongitude, battrey, temperature, humidity);
+            var data = new DeviceDataEntity(device.getUserDeviceId(), latitude, longitude, altitude, System.currentTimeMillis(), btsLatitude, btsLongitude, battery, temperature, humidity);
             testData.add(data);
         }
         deviceDataRepository.saveAll(testData);
