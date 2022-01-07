@@ -21,4 +21,6 @@ public interface IUserService {
     void deleteUser(long userId) throws ApplicationException;
 
     LoginResponseModel login(LoginRequestDto request) throws ApplicationException;
+
+    UserEntity getUserInfo(String token) throws ApplicationException;
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.mahdiyar.core.application.exceptions.ApplicationException;
 import me.mahdiyar.core.application.models.LoginResponseModel;
 import me.mahdiyar.core.application.models.common.ServiceResponse;
+import me.mahdiyar.core.application.models.dto.users.UserDto;
 import me.mahdiyar.core.application.models.dto.users.requests.LoginRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;
@@ -14,9 +15,12 @@ import me.mahdiyar.core.application.models.dto.users.responses.UpdateUserRespons
 import me.mahdiyar.core.application.services.user.IUserService;
 import me.mahdiyar.core.application.services.user.UserServiceMapper;
 import me.mahdiyar.core.domain.entities.UserEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/users/")
@@ -24,6 +28,7 @@ import java.util.Collection;
 public class UserController {
     private final IUserService userService;
     private final UserServiceMapper userServiceMapper;
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     @PostMapping("login")
     public LoginResponseDto login(@RequestBody LoginRequestDto request) throws ApplicationException {
@@ -53,6 +58,19 @@ public class UserController {
     public UpdateUserResponseDto updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequestDto request) throws ApplicationException {
         UserEntity user = userService.updateUser(userId, request);
         return userServiceMapper.toUpdateUserResponseDto(user);
+    }
+
+
+    @GetMapping("info")
+    public UserDto getUserInfo(HttpServletRequest request) throws ApplicationException {
+        var token = Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
+                .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("authorization header is not present"))
+                .replace("Bearer ", "")
+                .replace("bearer ", "")
+                .trim();
+
+        UserEntity user = userService.getUserInfo(token);
+        return userServiceMapper.toUserDto(user);
     }
 
     @DeleteMapping("/{userId}")

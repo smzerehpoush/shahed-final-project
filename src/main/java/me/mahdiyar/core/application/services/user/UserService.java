@@ -2,6 +2,7 @@ package me.mahdiyar.core.application.services.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.mahdiyar.core.application.common.HashGenerator;
 import me.mahdiyar.core.application.exceptions.ApplicationException;
 import me.mahdiyar.core.application.exceptions.AuthenticationException;
 import me.mahdiyar.core.application.exceptions.ForbiddenActionException;
@@ -13,6 +14,7 @@ import me.mahdiyar.core.application.models.dto.users.requests.SignupRequestDto;
 import me.mahdiyar.core.application.models.dto.users.requests.UpdateUserRequestDto;
 import me.mahdiyar.core.application.services.user_authentication.UserAuthenticationService;
 import me.mahdiyar.core.domain.entities.UserEntity;
+import me.mahdiyar.core.domain.repositories.TokenRepository;
 import me.mahdiyar.core.domain.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserAuthenticationService userAuthenticationService;
+    private final TokenRepository tokenRepository;
 
     @Override
     public UserEntity signup(SignupRequestDto request) throws ApplicationException {
@@ -80,6 +83,13 @@ public class UserService implements IUserService {
         userEntity.delete();
         userRepository.delete(userEntity);
         logger.info("user with userId {} deleted successfully", userId);
+    }
+
+    @Override
+    public UserEntity getUserInfo(String plainToken) throws ApplicationException {
+        var hashedToken = HashGenerator.generateHash(plainToken);
+        var token = tokenRepository.findByHashedToken(hashedToken).orElseThrow(AuthenticationException::new);
+        return token.getUser();
     }
 
     @Override
