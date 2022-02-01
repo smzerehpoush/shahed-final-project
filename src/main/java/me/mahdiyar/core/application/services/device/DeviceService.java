@@ -94,12 +94,13 @@ public class DeviceService implements IDeviceService {
         var testDataSize = 300 + random.nextInt(200);
         var testData = new ArrayList<DeviceDataEntity>(testDataSize);
         for (int i = 0; i < testDataSize; i++) {
-//            39.45-45.54
+//            39.45-44.54
 //                    27.19-63.21
-            var latitude = String.valueOf(27 + random.nextInt(12) + (double) random.nextInt(1000) / 1000000000);
-            var longitude = String.valueOf(44 + random.nextInt(17) + (double) random.nextInt(1000) / 1000000000);
-            var btsLatitude = String.valueOf(27 + random.nextInt(12) + (double) random.nextInt(1000) / 1000000000);
-            var btsLongitude = String.valueOf(44 + random.nextInt(17) + (double) random.nextInt(1000) / 1000000000);
+            var latitude = String.valueOf(27 + random.nextInt(12) + random.nextDouble() + ((double) random.nextInt(1000) / 1000000000));
+            var longitude = String.valueOf(44 + random.nextInt(17) + random.nextDouble() + ((double) random.nextInt(1000) / 1000000000));
+
+            var btsLatitude = String.valueOf(27 + random.nextInt(12) + random.nextDouble() + (double) random.nextInt(1000) / 1000000000);
+            var btsLongitude = String.valueOf(44 + random.nextInt(17) + random.nextDouble() + (double) random.nextInt(1000) / 1000000000);
             var battery = random.nextInt(100);
             var temperature = 25.0 + random.nextInt(5);
             var humidity = 10.0 + random.nextInt(5);
