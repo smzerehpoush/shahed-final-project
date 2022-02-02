@@ -60,7 +60,7 @@ public class DeviceService implements IDeviceService {
     @Override
     public Set<DeviceEntity> getUserDevices(long userId) throws ApplicationException {
         var user = userService.getUser(userId);
-        var userDevices = deviceRepository.findAllByUserId(user.getId());
+        var userDevices = deviceRepository.findAllByUserIdAndDeletedFalse(user.getId());
         logger.info("user devices count for userId {} is {}", userId, userDevices.size());
         return userDevices;
     }
@@ -93,7 +93,7 @@ public class DeviceService implements IDeviceService {
             throw new ForbiddenActionException();
         var testDataSize = 300 + random.nextInt(200);
         var testData = new ArrayList<DeviceDataEntity>(testDataSize);
-        for (int i = 0; i < testDataSize; i++) {
+        for (var i = 0; i < testDataSize; i++) {
 //            39.45-44.54
 //                    27.19-63.21
             var latitude = String.valueOf(27 + random.nextDouble() * 12 + ((double) random.nextInt(1000) / 1000000000));

@@ -11,7 +11,7 @@ import java.util.Set;
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
     Optional<DeviceEntity> findAllByUserDeviceId(long deviceId);
 
-    Set<DeviceEntity> findAllByUserId(long userId);
+    Set<DeviceEntity> findAllByUserIdAndDeletedFalse(long userId);
 
     boolean existsAllByUserDeviceId(long deviceId);
 }
